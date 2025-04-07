@@ -90,33 +90,20 @@ WSGI_APPLICATION = 'new.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'mssql',
-#         'NAME': 'MinecraftListServer',           # Nazwa Twojej bazy danych
-#         'USER': 'Minecraft_API',           # Login użytkownika SQL Server
-#         'PASSWORD': 'Q@wertyuiop!',  # Hasło użytkownika SQL Server
-#         'HOST': 'EMILPC\SQLEXPRESS',             # Zazwyczaj localhost
-#         'PORT': '',                      # Port (domyślnie 1433, możesz pominąć)
-#         'OPTIONS': {
-#             'driver': 'ODBC Driver 17 for SQL Server',
-#             'Trusted_Connection':"yes"  # Musisz mieć zainstalowany ODBC Driver 17
-#         },
-#     }
-# }
-import environ
 
-env = environ.Env()
-environ.Env.read_env()
+import os
+from dotenv import load_dotenv
+BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(dotenv_path=BASE_DIR / '.env')
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres.vhsjkeuvbrdkonnscvmz',
-        'PASSWORD': 'Q@wertyuiop!',
-        'HOST': 'aws-0-eu-central-1.pooler.supabase.com',
-        'PORT': '6543',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ.get('DB_NAME'),
+        "USER": os.environ.get('DB_USER'),
+        "PASSWORD": os.environ.get('DB_PASSWORD'),
+        "HOST": os.environ.get('DB_HOST'),
+        "PORT": os.environ.get('DB_PORT'),
     }
 }
 

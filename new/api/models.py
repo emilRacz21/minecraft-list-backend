@@ -55,7 +55,6 @@ class MinecraftServer(models.Model):
     favicon = models.TextField(blank=True, null=True)
     server_views = models.IntegerField(default=1, blank=True, null=True)
 
-
     class Meta:
         db_table = 'mc_servers_list'
 
