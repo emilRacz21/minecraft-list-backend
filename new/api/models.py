@@ -77,3 +77,16 @@ class LikedServer(models.Model):
 
     def __str__(self):
         return f"{self.login} -> {self.server} ({self.get_vote_display()})"
+    
+class ServerReview(models.Model):
+    review = models.CharField(max_length=200)
+    server = models.ForeignKey(MinecraftServer, on_delete=models.CASCADE)
+    login = models.ForeignKey(Login, on_delete=models.CASCADE)
+    created_at_date = models.DateField(default=datetime.date.today)
+    created_at_time = models.TimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'mc_server_reviews'
+
+    def __str__(self):
+        return f"{self.login} on {self.server}: {self.review[:30]}..."
