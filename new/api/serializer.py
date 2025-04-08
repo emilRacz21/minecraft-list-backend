@@ -27,7 +27,7 @@ class LikedServerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = LikedServer
-        fields = ['id', 'login_id', 'server_id', 'vote', 'vote_display']
+        fields = ['id', 'login', 'server', 'vote', 'vote_display']
 
 
 class MinecraftServerSerializer(serializers.ModelSerializer):
