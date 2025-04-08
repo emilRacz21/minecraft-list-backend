@@ -60,3 +60,20 @@ class MinecraftServer(models.Model):
 
     def __str__(self):
         return f"{self.ip}:{self.port}"
+    
+class VoteChoices(models.IntegerChoices):
+    LIKE = 1, 'Like'
+    DISLIKE = -1, 'Dislike'
+    NONE = 0, 'No vote'
+
+class LikedServer(models.Model):
+    login = models.ForeignKey(Login, on_delete=models.CASCADE)
+    server = models.ForeignKey(MinecraftServer, on_delete=models.CASCADE)
+    vote = models.IntegerField(choices=VoteChoices.choices, default=VoteChoices.NONE)
+
+    class Meta:
+        unique_together = ('login', 'server')
+        db_table = 'mc_liked_servers'
+
+    def __str__(self):
+        return f"{self.login} -> {self.server} ({self.get_vote_display()})"

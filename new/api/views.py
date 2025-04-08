@@ -1,8 +1,8 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from .models import MinecraftServer, User, Login, ServerType, ServerVersion
-from .serializer import MinecraftServerSerializer, UserSerializer, LoginSerializer, ServerTypeSerializer, ServerVersionSerializer,CheckServerSerializer
+from .models import MinecraftServer, User, Login, ServerType, ServerVersion, LikedServer
+from .serializer import MinecraftServerSerializer, UserSerializer, LoginSerializer, ServerTypeSerializer, ServerVersionSerializer,CheckServerSerializer, LikedServerSerializer
 from mcstatus.server import JavaServer 
 from rest_framework.decorators import action
 
@@ -29,6 +29,11 @@ class ServerVersionViewSet(viewsets.ModelViewSet):
 class MinecraftServerViewSet(viewsets.ModelViewSet):
     queryset = MinecraftServer.objects.all()
     serializer_class = MinecraftServerSerializer
+    permission_classes = [AllowAny]
+
+class LikedServerViewSet(viewsets.ModelViewSet):
+    queryset = LikedServer.objects.all()
+    serializer_class = LikedServerSerializer
     permission_classes = [AllowAny]
 
 class CheckAndAddMinecraftServer(viewsets.ModelViewSet):
