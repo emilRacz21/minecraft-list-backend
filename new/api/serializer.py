@@ -22,14 +22,19 @@ class ServerVersionSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class MinecraftServerSerializer(serializers.ModelSerializer):
-        server_type = ServerTypeSerializer(many=True, read_only=True)
-        server_version = ServerVersionSerializer(many=True, read_only=True)
-        login = serializers.PrimaryKeyRelatedField(queryset=Login.objects.all())
-        class Meta:
-            model = MinecraftServer
-            fields = '__all__'
+    server_type_name = ServerTypeSerializer(many=True, read_only=True, source='server_type')
+    server_version_name = ServerVersionSerializer(many=True, read_only=True, source='server_version')
+    login = serializers.PrimaryKeyRelatedField(queryset=Login.objects.all())
+    server_views = serializers.IntegerField(read_only=True)
+    user_added = serializers.CharField(source='login.username', read_only=True) 
+
+    class Meta:
+        model = MinecraftServer
+        fields = '__all__'
 
 class CheckServerSerializer(serializers.Serializer):
     ip = serializers.CharField()
     port = serializers.IntegerField(required=False, default=25565)
-    login_id = serializers.IntegerField()
+    login_id = serializers.PrimaryKeyRelatedField(queryset=Login.objects.all())
+    server_type = serializers.PrimaryKeyRelatedField(queryset=ServerType.objects.all(), required=True, many=True)
+    server_version = serializers.PrimaryKeyRelatedField(queryset=ServerVersion.objects.all(), required=True, many=True)

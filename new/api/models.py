@@ -42,8 +42,8 @@ class ServerVersion(models.Model):
 
 class MinecraftServer(models.Model):
     login = models.ForeignKey(Login, on_delete=models.CASCADE)
-    server_type = models.ManyToManyField(ServerType)
-    server_version = models.ManyToManyField(ServerVersion)
+    server_type = models.ManyToManyField(ServerType, blank=False)
+    server_version = models.ManyToManyField(ServerVersion, blank=False)
     ip = models.CharField(max_length=100, default='192.168.0.100')
     port = models.IntegerField(null=True, blank=True, default=25565)
     description = models.CharField(max_length=500, null=True, blank=True)
