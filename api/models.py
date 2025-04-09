@@ -48,7 +48,7 @@ class MinecraftServer(models.Model):
     port = models.IntegerField(null=True, blank=True, default=25565)
     description = models.CharField(max_length=500, null=True, blank=True)
     publication_date = models.DateField(default=datetime.date.today, null=True, blank=True) 
-    update_date = models.DateField(default=datetime.date.today, null=True, blank=True) 
+    update_date = models.DateField(auto_now=True)
     version = models.CharField(max_length=100, blank=True, null=True)
     players_online = models.IntegerField(blank=True, null=True)
     players_max = models.IntegerField(blank=True, null=True)
