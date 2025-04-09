@@ -92,7 +92,6 @@ class CheckAndAddMinecraftServer(viewsets.ModelViewSet):
         mc_server.server_type.set(server_types)
         mc_server.server_version.set([version.id for version in server_versions])
         output_serializer = MinecraftServerSerializer(mc_server)
-
         return Response(output_serializer.data, status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)
     
     @action(detail=True, methods=['get'], url_path='refresh-server')
