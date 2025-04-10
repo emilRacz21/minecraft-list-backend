@@ -1,9 +1,10 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, filters
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from .models import MinecraftServer, User, Login, ServerType, ServerVersion, LikedServer, ServerReview
 from .serializer import MinecraftServerSerializer, UserSerializer, LoginSerializer, ServerTypeSerializer, ServerVersionSerializer,CheckServerSerializer, LikedServerSerializer, ServerReviewSerializer
 from mcstatus.server import JavaServer 
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -44,6 +45,10 @@ class ServerReviewViewSet(viewsets.ModelViewSet):
 class CheckAndAddMinecraftServer(viewsets.ModelViewSet):
     queryset = MinecraftServer.objects.all()
     permission_classes = [AllowAny]
+    filter_backends = [filters.OrderingFilter, DjangoFilterBackend]
+    ordering_fields = ['publication_date'] #?ordering=-publication_date ASC
+    ordering = ['-publication_date'] #?ordering=-publication_date DESC
+    filterset_fields = ['server_type', 'server_version'] #/?format=json&server_type=1 / /?format=json&server_version=1
 
     def get_serializer_class(self):
         if self.action == 'create':
