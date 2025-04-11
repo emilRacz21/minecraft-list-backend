@@ -21,7 +21,6 @@ class ServerVersionSerializer(serializers.ModelSerializer):
         model = ServerVersion
         fields = '__all__'
 
-
 class LikedServerSerializer(serializers.ModelSerializer):
     vote_display = serializers.CharField(source='get_vote_display', read_only=True)
     login = serializers.PrimaryKeyRelatedField(queryset=Login.objects.all(), write_only=True)
@@ -68,7 +67,6 @@ class MinecraftServerSerializer(serializers.ModelSerializer):
 
     def get_dislike_count(self, obj):
         return obj.likedserver_set.filter(vote=-1).count()
-    
 
 class CheckServerSerializer(serializers.Serializer):
     ip = serializers.CharField()
