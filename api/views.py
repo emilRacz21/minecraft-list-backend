@@ -7,40 +7,24 @@ from mcstatus.server import JavaServer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [AllowAny]
+def make_view(name, model, serializer):
+    return type(
+        name,
+        (viewsets.ModelViewSet,),
+        {
+            'queryset': model.objects.all(),
+            'serializer_class': serializer,
+            'permission_classes': [AllowAny],
+        }
+    )
 
-class LoginViewSet(viewsets.ModelViewSet):
-    queryset = Login.objects.all()
-    serializer_class = LoginSerializer
-    permission_classes = [AllowAny]
-
-class ServerTypeViewSet(viewsets.ModelViewSet):
-    queryset = ServerType.objects.all()
-    serializer_class = ServerTypeSerializer
-    permission_classes = [AllowAny]
-
-class ServerVersionViewSet(viewsets.ModelViewSet):
-    queryset = ServerVersion.objects.all()
-    serializer_class = ServerVersionSerializer
-    permission_classes = [AllowAny]
-
-class MinecraftServerViewSet(viewsets.ModelViewSet):
-    queryset = MinecraftServer.objects.all()
-    serializer_class = MinecraftServerSerializer
-    permission_classes = [AllowAny]
-
-class LikedServerViewSet(viewsets.ModelViewSet):
-    queryset = LikedServer.objects.all()
-    serializer_class = LikedServerSerializer
-    permission_classes = [AllowAny]
-
-class ServerReviewViewSet(viewsets.ModelViewSet):
-    queryset = ServerReview.objects.all()
-    serializer_class = ServerReviewSerializer
-    permission_classes = [AllowAny]
+UserViewSet = make_view('UserViewSet', User, UserSerializer)
+LoginViewSet = make_view('LoginViewSet', Login, LoginSerializer)
+ServerTypeViewSet = make_view('ServerTypeViewSet', ServerType, ServerTypeSerializer)
+ServerVersionViewSet = make_view('ServerVersionViewSet', ServerVersion, ServerVersionSerializer)
+MinecraftServerViewSet = make_view('MinecraftServerViewSet', MinecraftServer, MinecraftServerSerializer)
+LikedServerViewSet = make_view('LikedServerViewSet', LikedServer, LikedServerSerializer)
+ServerReviewViewSet = make_view('ServerReviewViewSet', ServerReview, ServerReviewSerializer)
 
 class CheckAndAddMinecraftServer(viewsets.ModelViewSet):
     queryset = MinecraftServer.objects.all()
